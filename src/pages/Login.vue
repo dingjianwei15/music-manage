@@ -20,8 +20,10 @@
 </template>
 
 <script>
-import {getLoginStatus} from "../api/index"
+  import {mixin} from '../tools/tool'
+  import {getLoginStatus} from "../api/index"
 export default {
+    mixins:[mixin],
   data: function () {
     return {
       ruleForm: {
@@ -43,11 +45,12 @@ export default {
     submitForm () {
       // alert('提交')
       let param = new URLSearchParams();
-      param.append("username",this.ruleForm.username);
-      param.append("password",this.ruleForm.password);
+      param.append('username',this.ruleForm.username);
+      param.append('password',this.ruleForm.password);
       getLoginStatus(param)
       .then((res) => {
         if (res.code == 1000){
+          this.$router.push("/Info");
           this.notify("登录成功","success");
         }else {
           this.notify("登录失败","error");
