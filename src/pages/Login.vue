@@ -50,6 +50,7 @@ export default {
       getLoginStatus(param)
       .then((res) => {
         if (res.code == 1000){
+          localStorage.setItem("username",this.ruleForm.username);
           this.$router.push("/Info");
           this.notify("登录成功","success");
         }else {
