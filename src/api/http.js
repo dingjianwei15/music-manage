@@ -68,3 +68,14 @@ export function post (url, data = {}) {
       })
   })
 }
+
+export function postJsonRequest (url,data) {
+  return axios({
+    method:'post',
+    url:url,
+    headers:{'Content-Type':'application/json'},
+    data:data
+  });
+}
+
+
