@@ -8,5 +8,9 @@ export const getLoginStatus = (params) => post(`admin/login/status`, params)
 /************************歌手管理***************************/
 //新增歌手
 export const addSinger = (params) => post(`singer/addSinger`,params)
-
-export const addSingers = (data) => postJsonRequest('singer/addSinger',data)
+//查询歌手
+export const querySingers = (params) => post('singer/querySingers',params)
+//更新歌手
+export const updateSinger = (params) => post('singer/updateSinger',params)
+//删除歌手
+export const deleteSinger = (params) => post('/singer/deleteSinger',params)
