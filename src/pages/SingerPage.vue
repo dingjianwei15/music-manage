@@ -4,9 +4,11 @@
         <div class="handle-box">
           <el-input v-model="singerName" size="mini" placeholder="请输入歌手姓名" class="handle-input">添加歌手</el-input>
           <el-button type="primary" size="mini" @click="centerDialogVisible=true">添加歌手</el-button>
+          <el-button type="primary" size="mini" @click="delSinger()">批量删除</el-button>
         </div>
       </div>
-      <el-table size="mini" border style="width: 100%;height: 700px;" :data="data">
+      <el-table size="mini" border style="width: 100%;height: 700px;" :data="data" @selection-change="handleSelectChange">
+        <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column label="歌手图片" width="110" align="center">
           <template slot-scope="scope">
             <div class="singer-img">
@@ -148,7 +150,7 @@
           location:'',
           introduction:''
         },
-        delForm:{
+        delForm:{//删除歌手
           pid:'',
           name:'',
           sex:'',
@@ -161,7 +163,8 @@
         tempData:[],
         singerName:'',
         pageSize:5,
-        currentPage:1
+        currentPage:1,
+        currentSelection:[],//当前多选项
       }
     },
     created () {
@@ -255,11 +258,15 @@
       //删除
       handleDle(singer){
         this.delVisible = true;
+        //this.delPid = singer.pid;
         this.delForm = singer;
-        console.log("delForm"+JSON.stringify(this.delForm))
+        this.currentSelection.push(this.delForm);
       },
+      //删除歌手
       delSinger(){
-        deleteSinger(JSON.stringify(this.delForm)).then(res =>{
+        let param = new URLSearchParams();
+        param.append('singerList',JSON.stringify(this.currentSelection));
+        deleteSinger(param).then(res =>{
           if (res.code == 1000){
             this.querySinger();
             this.notify('删除成功！','success');
@@ -271,8 +278,14 @@
         }).catch(err => {
           console.log(err);
         })
-      }
-
+        this.currentSelection=[];
+      },
+      //多选赋值
+      handleSelectChange(val){
+        this.currentSelection = val;
+        console.log('select'+val);
+        console.log(this.currentSelection)
+      },
     },
     watch:{
       singerName:function () {
