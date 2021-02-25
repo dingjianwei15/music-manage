@@ -28,6 +28,11 @@
         <el-table-column prop="birth" label="出生日期" width="150" align="center"></el-table-column>
         <el-table-column prop="location" label="地区" width="150" align="center"></el-table-column>
         <el-table-column prop="introduction" label="简介" align="center"></el-table-column>
+        <el-table-column width="120" label="歌曲管理" align="center">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="songEdit(scope.row.pid,scope.row.name)">歌曲管理</el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="300" align="center">
           <template slot-scope="scope">
             <el-button size="mini" @click="handleEdit(scope.row)">编辑</el-button>
@@ -286,6 +291,10 @@
         console.log('select'+val);
         console.log(this.currentSelection)
       },
+      //歌曲管理
+      songEdit(pid,name){
+        this.$router.push({path:`/song`,query:{pid,name}})
+      }
     },
     watch:{
       singerName:function () {
